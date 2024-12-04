@@ -14,6 +14,7 @@
   "description": "",
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/node-schedule": "^2.1.7",
     "@types/nodemailer": "^6.4.17",
     "express": "^4.21.1",
     "nodemailer": "^6.9.16",
@@ -24,6 +25,7 @@
     "@ethsign/sp-sdk": "^0.9.1",
     "@privy-io/server-auth": "^1.16.6",
     "dotenv": "^16.4.5",
+    "node-schedule": "^2.1.1",
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
     "viem": "^2.21.51"

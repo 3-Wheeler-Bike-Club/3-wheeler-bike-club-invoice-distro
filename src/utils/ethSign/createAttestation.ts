@@ -11,11 +11,12 @@ export async function createAttestation(attestation: Attestation) {
         const privateKey = process.env.PRIVATE_KEY as `0x${string}`; // account responsible for paying gas fees
   
         const client = new SignProtocolClient(SpMode.OnChain, {
-            chain: EvmChains.sepolia,
+            chain: EvmChains.celo,
             account: privateKeyToAccount(privateKey) // required in backend environments
         });
 
-        client.createAttestation(attestation)
+        const data = client.createAttestation(attestation)
+        return data
     } catch (error) {
         console.log(error)
     }
