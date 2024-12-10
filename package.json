@@ -22,7 +22,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "@ethsign/sp-sdk": "^0.9.1",
+    "@ethsign/sp-sdk": "^0.9.6",
     "@privy-io/server-auth": "^1.16.6",
     "dotenv": "^16.4.5",
     "node-schedule": "^2.1.1",
