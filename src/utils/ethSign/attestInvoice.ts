@@ -6,7 +6,7 @@ import {
 } from "@ethsign/sp-sdk";
 import { privateKeyToAccount } from "viem/accounts";
   
-export async function createAttestation(attestation: Attestation) {
+export async function attestInvoice(attestation: Attestation) {
     try {
         const privateKey = process.env.PRIVATE_KEY as `0x${string}`; // account responsible for paying gas fees
   

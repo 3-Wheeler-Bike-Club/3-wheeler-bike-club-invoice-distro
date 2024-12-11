@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express"
 import dotenv from "dotenv"
 import { getSmartWalletsPlusEmailsFromPrivyUsers } from "./utils/privy/getSmartWalletsPlusEmailsFromPrivyUsers.js"
-import { createAttestation } from "./utils/ethSign/createAttestation.js";
+import { attestInvoice } from "./utils/ethSign/attestInvoice.js";
 import { sendEmail } from "./utils/mail/sendEmail.js";
 import { deconstructAttestationData } from "./utils/ethSign/deconstructAttestationData.js";
 import schedule from "node-schedule"
@@ -32,7 +32,7 @@ async function attestInvoicePlusSendEmail() {
     //deconstruct attestation data
     const attestationData = await deconstructAttestationData(membersSmartWallets)
     //create attestation
-    const attested = await createAttestation(attestationData)
+    const attested = await attestInvoice(attestationData)
     if (attested) {
         //send email loop
         for (let i = 0; i < members.length; i++) {
