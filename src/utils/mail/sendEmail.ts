@@ -17,9 +17,9 @@ export const sendEmail = async(email: string) => {
         });
     
         const weeklyInvoiceEmail = {
-            from: `Members @ 3wb.club <${process.env.USER}>`,
+            from: `3 Wheeler Bike Club <${process.env.USER}>`,
             to: email, // Dynamic recipient email address
-            subject: 'weekly member dues=',
+            subject: 'Invoice: Weekly Membership Dues',
             html: `
                 <p>Hi,</p>
 

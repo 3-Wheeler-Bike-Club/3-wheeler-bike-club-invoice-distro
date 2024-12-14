@@ -5,6 +5,7 @@ import { attestInvoice } from "./utils/ethSign/attestInvoice.js";
 import { sendEmail } from "./utils/mail/sendEmail.js";
 import { deconstructAttestationData } from "./utils/ethSign/deconstructAttestationData.js";
 import schedule from "node-schedule"
+import { postInvoiceAttestations } from "./utils/offchainAttest/postInvoiceAttestations.js";
 
 
 dotenv.config()
@@ -32,8 +33,9 @@ async function attestInvoicePlusSendEmail() {
     //deconstruct attestation data
     const attestationData = await deconstructAttestationData(membersSmartWallets)
     //create attestation
-    const attested = await attestInvoice(attestationData)
-    if (attested) {
+    const attestedInvoice = await attestInvoice(attestationData)
+    if (attestedInvoice) {
+        postInvoiceAttestations(membersSmartWallets, attestedInvoice.attestationId)
         //send email loop
         for (let i = 0; i < members.length; i++) {
             const member = members[i];
