@@ -26,40 +26,48 @@ app.get("/", (req: Request, res: Response) => {
 //send email notifications to all emails...looped
 
 async function attestInvoicePlusSendEmail() {
-    
-    const members = await getSmartWalletsPlusEmailsFromPrivyUsers()
-    // Extracting smart wallet addresses
-    const membersSmartWallets: string[] = members.map(member => member.smartWallet);
-    
-    
-    let invoices: string[] = []
-    
-    //send email loop
-    for (let i = 0; i < members.length; i++) {
-        const member = members[i]
-        const membersSmartWallet = membersSmartWallets[i]
+    try {    
+        const members = await getSmartWalletsPlusEmailsFromPrivyUsers()
+        // Extracting smart wallet addresses
+        const membersSmartWallets: string[] = members.map(member => member.smartWallet);
         
-        //deconstruct attestation data
-        let recipient = []
-        recipient.push(membersSmartWallet)
-        const attestationData = await deconstructAttestationData(recipient)
+        
+        let invoices: string[] = []
+        
+        //send email loop
+        for (let i = 0; i < members.length; i++) {
+            const member = members[i]
+            const membersSmartWallet = membersSmartWallets[i]
+            
+            //deconstruct attestation data
+            let recipient = []
+            recipient.push(membersSmartWallet)
+            const attestationData = await deconstructAttestationData(recipient)
 
-        //create attestation
-        const attestedInvoice = await attestInvoice(attestationData)
-        invoices.push(attestedInvoice?.attestationId!)
-        
-        //send email
-        sendEmail(member.email)
-    }  
-    postInvoiceAttestations(membersSmartWallets, invoices!)
+            //create attestation
+            const attestedInvoice = await attestInvoice(attestationData)
+            invoices.push(attestedInvoice?.attestationId!)
+            
+            //send email
+            await sendEmail(member.email)
+        }  
+        postInvoiceAttestations(membersSmartWallets, invoices!)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 //run function once every week
 // Schedule the task to run every Monday at 8:00 AM
-schedule.scheduleJob({ hour: 8, minute: 0, dayOfWeek: 1 }, function() {
+/*
+schedule.scheduleJob({ hour: 8, minute: 0, dayOfWeek: 3 }, function() {
     attestInvoicePlusSendEmail()
 });
-
+*/
+schedule.scheduleJob("0 */3 * * *", function() {
+    attestInvoicePlusSendEmail()
+    console.log('Job ran successfully at:', new Date());
+});
 
 
 ///////////////////////////////////////////////////////////////////////////////
