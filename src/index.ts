@@ -30,18 +30,28 @@ async function attestInvoicePlusSendEmail() {
     const members = await getSmartWalletsPlusEmailsFromPrivyUsers()
     // Extracting smart wallet addresses
     const membersSmartWallets: string[] = members.map(member => member.smartWallet);
-    //deconstruct attestation data
-    const attestationData = await deconstructAttestationData(membersSmartWallets)
-    //create attestation
-    const attestedInvoice = await attestInvoice(attestationData)
-    if (attestedInvoice) {
-        postInvoiceAttestations(membersSmartWallets, attestedInvoice.attestationId)
-        //send email loop
-        for (let i = 0; i < members.length; i++) {
-            const member = members[i];
-            sendEmail(member.email)
-        }     
-    }
+    
+    
+    let invoices: string[] = []
+    
+    //send email loop
+    for (let i = 0; i < members.length; i++) {
+        const member = members[i]
+        const membersSmartWallet = membersSmartWallets[i]
+        
+        //deconstruct attestation data
+        let recipient = []
+        recipient.push(membersSmartWallet)
+        const attestationData = await deconstructAttestationData(recipient)
+
+        //create attestation
+        const attestedInvoice = await attestInvoice(attestationData)
+        invoices.push(attestedInvoice?.attestationId!)
+        
+        //send email
+        sendEmail(member.email)
+    }  
+    postInvoiceAttestations(membersSmartWallets, invoices!)
 }
 
 //run function once every week

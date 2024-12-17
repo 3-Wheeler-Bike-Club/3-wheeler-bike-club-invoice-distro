@@ -1,7 +1,7 @@
 
 export async function postInvoiceAttestations (
     addresses: string[], 
-    invoiceSchemaID: string
+    invoiceSchemaIDs: string[]
 ) {
     try {
         const res = await fetch(`${process.env.BASE_URL}/api/postInvoiceAttestations`, {
@@ -12,7 +12,7 @@ export async function postInvoiceAttestations (
             },
             body: JSON.stringify({
                 addresses: addresses,
-                invoiceSchemaID: invoiceSchemaID
+                invoiceSchemaIDs: invoiceSchemaIDs
             })
         }) 
         const data =  await res.json()
