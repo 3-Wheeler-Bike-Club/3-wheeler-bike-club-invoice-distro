@@ -15,13 +15,18 @@ export async function getSmartWalletsPlusEmailsFromPrivyUsers(): Promise<Member[
         if (users && users.length > 0) {
             // Map over users to extract smart wallet addresses and emails
             const members: Member[] = users.map(user => {
+                // Check if customMetadata exists
+                if (!user.customMetadata) {
+                    return null;
+                }
+
                 const smartWalletAddress = user.smartWallet?.address || null;
                 const email = user.email?.address || "";
 
                 return smartWalletAddress
                     ? { smartWallet: smartWalletAddress as `0x${string}`, email }
                     : null;
-            }).filter((member): member is Member => member !== null); // Filter out null values
+            }).filter((member): member is Member => member !== null);
 
             console.log(members);
             return members;
