@@ -6,6 +6,7 @@ import { sendEmail } from "./utils/mail/sendEmail.js";
 import { deconstructAttestationData } from "./utils/ethSign/deconstructAttestationData.js";
 import schedule from "node-schedule"
 import { postInvoiceAttestations } from "./utils/offchainAttest/postInvoiceAttestations.js";
+import { checkPlusUpdateRates } from "./utils/currencyRate/checkPlusUpdateRates.js";
 
 
 dotenv.config()
@@ -66,7 +67,12 @@ schedule.scheduleJob({ hour: 8, minute: 0, dayOfWeek: 3 }, function() {
 */
 schedule.scheduleJob("0 */3 * * *", function() {
     attestInvoicePlusSendEmail()
-    console.log('Job ran successfully at:', new Date());
+    console.log('Invoice Job ran successfully at:', new Date());
+});
+
+schedule.scheduleJob("0 17 * * *", async function() {
+    checkPlusUpdateRates()
+    console.log('Currency Update Job ran successfully at:', new Date());
 });
 
 
