@@ -5,9 +5,10 @@ import { attestInvoice } from "./utils/ethSign/attestInvoice.js";
 import { sendEmail } from "./utils/mail/sendEmail.js";
 import { deconstructAttestationData } from "./utils/ethSign/deconstructAttestationData.js";
 import schedule from "node-schedule"
-import { postInvoiceAttestations } from "./utils/offchainAttest/postInvoiceAttestations.js";
+import { postMembersInvoiceAttestations } from "./utils/offchainAttest/postMembersInvoiceAttestations.js";
 import { checkPlusUpdateRates } from "./utils/currencyRate/checkPlusUpdateRates.js";
-
+import { getWeekPlusYear } from "./utils/misc/getWeekPlusYear.js";
+import { membershipDuesInUSD } from "./utils/constants/addresses.js";
 
 dotenv.config()
 
@@ -32,7 +33,7 @@ async function attestInvoicePlusSendEmail() {
         // Extracting smart wallet addresses
         const membersSmartWallets: string[] = members.map(member => member.smartWallet);
         
-        
+        const weekPlusYear = await getWeekPlusYear(new Date())
         let invoices: string[] = []
         
         //send email loop
@@ -43,7 +44,8 @@ async function attestInvoicePlusSendEmail() {
             //deconstruct attestation data
             let recipient = []
             recipient.push(membersSmartWallet)
-            const attestationData = await deconstructAttestationData(recipient)
+            
+            const attestationData = await deconstructAttestationData(recipient, membershipDuesInUSD, weekPlusYear)
 
             //create attestation
             const attestedInvoice = await attestInvoice(attestationData)
@@ -52,7 +54,7 @@ async function attestInvoicePlusSendEmail() {
             //send email
             await sendEmail(member.email)
         }  
-        postInvoiceAttestations(membersSmartWallets, invoices!)
+        postMembersInvoiceAttestations(membersSmartWallets, invoices!, membershipDuesInUSD, weekPlusYear)
     } catch (error) {
         console.log(error)
     }

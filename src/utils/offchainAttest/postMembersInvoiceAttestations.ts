@@ -1,10 +1,12 @@
 
-export async function postInvoiceAttestations (
+export async function postMembersInvoiceAttestations (
     addresses: string[], 
-    invoiceSchemaIDs: string[]
+    memberInvoiceAttestationIDs: string[],
+    amount: number,
+    week: string
 ) {
     try {
-        const res = await fetch(`${process.env.BASE_URL}/api/postInvoiceAttestations`, {
+        const res = await fetch(`${process.env.BASE_URL}/api/postMemberInvoiceAttestations`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -12,7 +14,9 @@ export async function postInvoiceAttestations (
             },
             body: JSON.stringify({
                 addresses: addresses,
-                invoiceSchemaIDs: invoiceSchemaIDs
+                memberInvoiceAttestationIDs: memberInvoiceAttestationIDs,
+                amount: amount,
+                week: week
             })
         }) 
         const data =  await res.json()

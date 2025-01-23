@@ -1,12 +1,12 @@
 import { Attestation, DataLocationOnChain } from "@ethsign/sp-sdk"
-import { attester, invoiceSchemaID, membershipDuesInUSD } from "../constants/addresses.js"
-import { getWeekPlusYear } from "../misc/getWeekPlusYear.js"
+import { attester, invoiceSchemaID } from "../constants/addresses.js"
 
-export async function deconstructAttestationData( recipients: string[]) {
-    const weekPlusYear = await getWeekPlusYear(new Date())
+
+export async function deconstructAttestationData( recipients: string[], amount: number, week: string) {
+    
     const schemaData = {
-        Amount: membershipDuesInUSD,
-        Week: weekPlusYear
+        amount: amount,
+        week: week
     }
     const deconstructedAttestationData: Attestation= {
         schemaId: (invoiceSchemaID), // The final number from our schema's ID.
