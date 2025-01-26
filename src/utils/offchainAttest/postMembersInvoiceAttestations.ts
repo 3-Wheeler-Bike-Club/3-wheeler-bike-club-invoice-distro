@@ -6,7 +6,7 @@ export async function postMembersInvoiceAttestations (
     week: string
 ) {
     try {
-        const res = await fetch(`${process.env.BASE_URL}/api/postMemberInvoiceAttestations`, {
+        const res = await fetch(`${process.env.BASE_URL}/api/postMembersInvoiceAttestations`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
