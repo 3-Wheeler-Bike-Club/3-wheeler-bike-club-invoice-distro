@@ -1,6 +1,7 @@
 interface OffchainMemberCreditScoreAttestation {
     _id: string
     address: string
+    memberCreditScoreAttestationID: string
     score: number
     paidWeeks: number
     invoicedWeeks: number

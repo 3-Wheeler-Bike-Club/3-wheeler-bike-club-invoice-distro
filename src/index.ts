@@ -74,7 +74,7 @@ async function attestInvoicePlusSendEmail() {
             //check credit scores attestations from db
             if (memberCreditScoreAttestation) {
                 // if exists, revoke 
-                const revokedCreditScoreAttestation = await revoke(memberCreditScoreAttestation._id)
+                const revokedCreditScoreAttestation = await revoke(memberCreditScoreAttestation.memberCreditScoreAttestationID)
                 console.log(revokedCreditScoreAttestation)
                 if (revokedCreditScoreAttestation) {
                     //+ credit score attest

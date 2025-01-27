@@ -15,7 +15,8 @@ export async function attest(attestation: Attestation) {
             account: privateKeyToAccount(privateKey) // required in backend environments
         });
 
-        const data = client.createAttestation(attestation)
+        const data = await client.createAttestation(attestation)
+        console.log(data)
         return data
     } catch (error) {
         console.log(error)
