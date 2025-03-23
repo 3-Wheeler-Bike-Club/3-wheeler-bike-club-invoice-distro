@@ -131,7 +131,7 @@ schedule.scheduleJob({ hour: 8, minute: 0, dayOfWeek: 3 }, function() {
     attestInvoicePlusSendEmail()
 });
 */
-schedule.scheduleJob("0 */6 * * *", function() {
+schedule.scheduleJob("0 0 * * 1", function() {
     attestInvoicePlusSendEmail()
     console.log('Invoice Job ran successfully at:', new Date());
 });
