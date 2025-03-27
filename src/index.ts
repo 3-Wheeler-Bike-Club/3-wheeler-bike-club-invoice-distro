@@ -144,7 +144,6 @@ schedule.scheduleJob("0 17 * * *", async function() {
 
 ///////////////////////////////////////////////////////////////////////////////
 app.listen(port, () => {
-    attestInvoicePlusSendEmail() 
     console.log(`[server]: Server is running at http://localhost:${port}`);
 });
   
