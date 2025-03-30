@@ -20,7 +20,7 @@ export async function checkRates() {
     const extractedRates = currencies.map(currency => {
       const rate = rates[currency];
       // Adds 5% to each rate
-      return Number((rate * 1.05).toFixed(2)); // Rounds to 2 decimal places
+      return Number((rate * 1.025).toFixed(2)); // Rounds to 2 decimal places
     });
 
     console.log('Extracted rates:', extractedRates);
