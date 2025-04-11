@@ -168,7 +168,7 @@ schedule.scheduleJob("0 17 * * *", async function() {
 
 ///////////////////////////////////////////////////////////////////////////////
 app.listen(port, () => {
-    attestSingleInvoice("0x803B021b9177F2ECDfE1818FAa8E5dce4A1CE574", "9090mustaphaibrahim@gmail.com")
+    //attestSingleInvoice("0x803B021b9177F2ECDfE1818FAa8E5dce4A1CE574", "9090mustaphaibrahim@gmail.com")
 
     //checkPlusUpdateRates()
     console.log(`[server]: Server is running at http://localhost:${port}`);
