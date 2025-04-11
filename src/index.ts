@@ -13,6 +13,8 @@ import { deconstructMemberInvoiceAttestationData } from "./utils/ethSign/deconst
 import { deconstructMemberCreditScoreAttestationData, MemberCreditScoreAttestationData } from "./utils/ethSign/deconstructMemberCreditScoreAttestationData.js";
 import { getMembersCreditScoreAttestaions } from "./utils/offchainAttest/getMembersCreditScoreAttestaions.js";
 import { postMembersCreditScoreAttestations } from "./utils/offchainAttest/postMembersCreditScoreAttestations.js";
+import { postMemberInvoiceAttestation } from "./utils/offchainAttest/postMemberInvoiceAttestation.js";
+import { postMemberCreditScoreAttestation } from "./utils/offchainAttest/postMemberCreditScoreAttestation.js";
 
 
 dotenv.config()
@@ -26,6 +28,28 @@ app.get("/", (req: Request, res: Response) => {
 });
 //////////////////////////////////////////////////////////////////////////////
 
+
+async function attestSingleInvoice(wallet: string, email: string) {
+    const weekPlusYear = await getWeekPlusYear(new Date())
+
+    //deconstruct member invoice attestation data
+    let recipient = []
+    recipient.push(wallet)
+
+    const memberInvoiceAttestationData = await deconstructMemberInvoiceAttestationData(recipient, membershipDuesInUSD, weekPlusYear)
+    const attestedMemberInvoice = await attest(memberInvoiceAttestationData)
+    postMemberInvoiceAttestation(wallet, attestedMemberInvoice?.attestationId!, membershipDuesInUSD, weekPlusYear)
+
+
+    // deconstruct credit score attestation data
+    const creditScoreAttestationData = await deconstructMemberCreditScoreAttestationData(recipient, 0, 0, 1)
+    //create credit score attestation
+    const attestedMemberCreditScore = await attest(creditScoreAttestationData)
+    postMemberCreditScoreAttestation(wallet, attestedMemberCreditScore?.attestationId!, 0, 0, 1)
+    //send email
+    await sendEmail(email)
+
+}
 
 
 //get all users smart wallets from privy
@@ -144,7 +168,9 @@ schedule.scheduleJob("0 17 * * *", async function() {
 
 ///////////////////////////////////////////////////////////////////////////////
 app.listen(port, () => {
-    checkPlusUpdateRates()
+    attestSingleInvoice("0x803B021b9177F2ECDfE1818FAa8E5dce4A1CE574", "9090mustaphaibrahim@gmail.com")
+
+    //checkPlusUpdateRates()
     console.log(`[server]: Server is running at http://localhost:${port}`);
 });
   
