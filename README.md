@@ -1,6 +1,6 @@
 # 3WB Invoice Distribution Library
 
-A TypeScript library providing utilities to generate, sign, and distribute invoices to 3WB members via email and blockchain attestations.
+A TypeScript node library providing utilities to generate, sign, and distribute invoices to 3WB members via email and blockchain attestations.
 
 ## 🚀 Core Modules
 
@@ -41,7 +41,7 @@ SMTP_HOST=smtp.example.com
 SMTP_PORT=587
 SMTP_USER=
 SMTP_PASS=
-FROM_ADDRESS="no-reply@3wb.club"
+FROM_ADDRESS=
 
 # Privy
 PRIVY_APP_ID=
